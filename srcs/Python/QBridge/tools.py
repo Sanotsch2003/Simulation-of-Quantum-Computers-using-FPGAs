@@ -5,7 +5,7 @@ import pathlib
 from tqdm import tqdm
 
 
-def convertToDecimal(binary_string):
+def convertToDecimal(binary_string, roundingThreshold = 0.00000001):
     temp = 0
     if binary_string[0] == '1':
         temp = -2
@@ -14,35 +14,24 @@ def convertToDecimal(binary_string):
         if binary_string[i+1] == '1':
             temp = temp + 2 ** (-i)
 
+    if temp < roundingThreshold and temp > -roundingThreshold:
+        temp = 0
     return temp
 
-def convertToComplex(binary_string):
+def convertToComplex(binary_string, roundingThreshold = 0.00000001):
 
     real = binary_string[0:32]
     imaginary = binary_string[32:64]
 
-    real = convertToDecimal(real)
-    imaginary = convertToDecimal(imaginary)
+    real = convertToDecimal(real, roundingThreshold)
+    imaginary = convertToDecimal(imaginary, roundingThreshold)
 
     c = complex(real, imaginary)
     return c
 
-def getSerialPort(baudRate = 9600):
+def getSerialPorts(baudRate = 9600):
     ports = serial.tools.list_ports.comports(include_links=True)
-    if len(ports) == 0:
-        print("No serial ports found")
-        print("closing...")
-        exit()
-    else:
-        print("Serial ports found: ")
-    for port in ports:
-        print(port.device)
-        print("---------------------")
-
-    print("Using port: " + ports[0].device)
-    portName = ports[0].device
-    port = serial.Serial(portName, baudRate, timeout=1)
-    return port
+    return [serial.Serial(port.device, baudRate, timeout=1) for port in ports],  [port.device for port in ports]
 
 def sendByte(port, byte):
     try:
@@ -116,7 +105,7 @@ def uploadProgram(port, filepath, filename):
                     byte_data = byte_value.to_bytes(1, byteorder='big')
                     sendByte(port = port, byte = byte_data)
 
-                except ValueError as e:
+                except Exception as e:
                     print(f"Error converting binary string to byte: {e}")
 
         sendByte(port = port, byte = int(StartEndByte, 2).to_bytes(1, byteorder='big')) #send end byte
