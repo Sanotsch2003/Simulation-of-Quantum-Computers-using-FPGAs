@@ -172,6 +172,9 @@ def terminalInteraction():
                 print(f"No valid Baud rate given: {e}")
                 print(f"Trying to connect with default baud rate {DEFAULT_BAUD_RATE}")
                 connectToSerialPort(DEFAULT_BAUD_RATE)
+        
+        else:
+            print("Unknown command, type 'help' for a list of commands")
 
 # welcome message
 print("Welcome to the Quantum Bridge terminal interface")
