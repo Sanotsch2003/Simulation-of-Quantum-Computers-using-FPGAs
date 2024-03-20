@@ -1,11 +1,9 @@
-
 import serial
 import serial.tools.list_ports
 import time
 import pathlib
 from tqdm import tqdm
 
-PROGRAM_DIR = str(pathlib.Path(__file__).parent.parent.parent.absolute()/pathlib.Path("FPGAPRograms"))
 
 def convertToDecimal(binary_string):
     temp = 0
@@ -100,12 +98,12 @@ def file_len(filePath):
             pass
     return i + 1
 
-def uploadProgram(port, filename):
+def uploadProgram(port, filepath, filename):
     StartEndByte = "11111111"
 
     if not filename.endswith(".prg"):
         filename = filename + ".prg"
-    filePath = pathlib.Path(PROGRAM_DIR) / pathlib.Path(filename)
+    filePath = pathlib.Path(filepath) / pathlib.Path(filename)
     try:
         sendByte(port = port, byte = int(StartEndByte, 2).to_bytes(1, byteorder='big')) #send start byte
         print(f"Opening file {filename}...")
@@ -126,6 +124,3 @@ def uploadProgram(port, filename):
 
     except Exception as e:
         print(f"Error uploading program: {e}")
-
-
-

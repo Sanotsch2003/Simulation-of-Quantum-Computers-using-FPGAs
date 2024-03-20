@@ -1,4 +1,4 @@
-from helperFunctions.functions import sendByte, readSerial, getSerialPort, uploadProgram
+from QBridge.tools import getSerialPort, sendByte, readSerial, uploadProgram
 import threading
 import sys
 

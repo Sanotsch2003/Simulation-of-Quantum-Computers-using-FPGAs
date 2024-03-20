@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 
-entity processingCore is
+entity processingComponent is
     Generic(
             precision: integer:=64; 
             maxQubits: integer:=14
@@ -43,9 +43,9 @@ entity processingCore is
           
      
     );
-end processingCore;
+end processingComponent;
 
-architecture Behavioral of processingCore is
+architecture Behavioral of processingComponent is
 
 --registers
 signal execution_cycles_reg : integer range 0 to 15 := 0;
@@ -62,8 +62,8 @@ signal w_v_b_updated : std_logic_vector(precision-1 downto 0);
 
 signal w_update_a_enable_to_cache : std_logic;
 signal w_update_b_enable_to_cache : std_logic;
-signal w_update_a_enable_to_alu : std_logic;
-signal w_update_b_enable_to_alu : std_logic;
+signal w_update_a_enable_to_ProcessingUnit : std_logic;
+signal w_update_b_enable_to_ProcessingUnit : std_logic;
 
 signal input_status_reg : std_logic_vector(1 downto 0) := "00";
 signal output_status_reg : std_logic_vector(1 downto 0) := "00";
@@ -116,7 +116,7 @@ component updateAandBcache is
         );
         end component;
    
-component ALU is 
+component ProcessingUnit is 
     generic(
           precision: integer
           );
@@ -192,11 +192,11 @@ begin
             write_en => cacheUpdateAandB_en,
             update_a_in => w_update_a_enable_to_cache,
             update_b_in => w_update_b_enable_to_cache,
-            update_a_out => w_update_a_enable_to_alu,
-            update_b_out => w_update_b_enable_to_alu
+            update_a_out => w_update_a_enable_to_ProcessingUnit,
+            update_b_out => w_update_b_enable_to_ProcessingUnit
             );
        
-    elementUpdating : ALU
+    elementUpdating : ProcessingUnit
     generic map(
                 precision => precision
                 )
@@ -206,8 +206,8 @@ begin
             matrix_in => target_matrix,
             v_a_out => w_v_a_updated,
             v_b_out => w_v_b_updated,
-            update_a_enable => w_update_a_enable_to_alu,
-            update_b_enable => w_update_b_enable_to_alu
+            update_a_enable => w_update_a_enable_to_ProcessingUnit,
+            update_b_enable => w_update_b_enable_to_ProcessingUnit
             );
             
     inputCache_a : coreCache

@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 
-entity quantumProcessor is
+entity top is
 generic(
     nCores: integer:=2; --changable
     precision: integer:=64; --not changable without breaking code
@@ -24,9 +24,9 @@ port(
     clk_reset: in std_logic
     );
     
-end quantumProcessor;
+end top;
 
-architecture Behavioral of quantumProcessor is
+architecture Behavioral of top is
     
     --declare components
     
@@ -102,7 +102,7 @@ architecture Behavioral of quantumProcessor is
             );
      end component;
          
-    component stateMemory is
+    component RAM is
         generic(
             maxQubits : integer;
             precision : integer 
@@ -145,7 +145,7 @@ architecture Behavioral of quantumProcessor is
             );
       end component;
       
-     component bootloader is
+     component uartReceiver is
           Generic(
                 instruction_width: integer;
                 baud_rate : integer;
@@ -195,7 +195,7 @@ architecture Behavioral of quantumProcessor is
      end component;
      
      
-    component processingCore is
+    component processingComponent is
     Generic(
             precision: integer:=64; 
             maxQubits: integer:=14
@@ -287,9 +287,9 @@ architecture Behavioral of quantumProcessor is
     signal w_program_memory_write_enable : std_logic;
     signal w_program_memory_address : unsigned(instruction_address_width-1 downto 0);
     
-    --bootloader
-    signal w_bootloader_reset_out : std_logic;
-    signal w_bootloader_program_memory_address_out : unsigned(instruction_address_width-1 downto 0);
+    --uartReceiver
+    signal w_uartReceiver_reset_out : std_logic;
+    signal w_uartReceiver_program_memory_address_out : unsigned(instruction_address_width-1 downto 0);
     
     --RAM Controller
     signal w_ram_controller_reset : std_logic;
@@ -391,7 +391,7 @@ begin
                  data_in => w_program_memory_data_in,
                  write_enable => w_program_memory_write_enable);
                              
-    RAM_inst : stateMemory
+    RAM_inst : RAM
         generic map(
                     maxQubits => maxQubits,
                     precision => precision)
@@ -426,7 +426,7 @@ begin
                  overflow => led
                 );
                 
-    bootloader_inst: bootloader 
+    uartReceiver_inst: uartReceiver 
           generic map(
                 instruction_width => instruction_width,
                 baud_rate => baudRate,
@@ -438,12 +438,12 @@ begin
                 rx => rx,
                 program_memory_write_enable => w_program_memory_write_enable,
                 program_memory_data_in => w_program_memory_data_in,
-                program_memory_address => w_bootloader_program_memory_address_out,
-                reset => w_bootloader_reset_out);
+                program_memory_address => w_uartReceiver_program_memory_address_out,
+                reset => w_uartReceiver_reset_out);
     
     --generate Cores
     generate_cores: for i in 0 to nCores-1 generate
-        core: processingCore
+        core: processingComponent
             generic map(
                     maxQubits => maxQubits,
                     precision => precision
@@ -562,9 +562,9 @@ begin
     w_ram_read_en <= w_ram_controller_ram_read_en or w_control_unit_ram_read_en;
     w_ram_write_en <= w_ram_controller_ram_write_en or w_control_unit_ram_write_en;
     
-    w_program_memory_address <= w_program_counter or w_bootloader_program_memory_address_out;
-    w_timer_reset <= reset_btn or w_control_unit_timer_reset or w_bootloader_reset_out;
-    w_main_reset <= reset_btn or w_bootloader_reset_out;
+    w_program_memory_address <= w_program_counter or w_uartReceiver_program_memory_address_out;
+    w_timer_reset <= reset_btn or w_control_unit_timer_reset or w_uartReceiver_reset_out;
+    w_main_reset <= reset_btn or w_uartReceiver_reset_out;
     
     --ram controller
     w_ram_controller_reset <= w_main_reset or w_control_unit_ram_controller_reset;

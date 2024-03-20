@@ -4,7 +4,7 @@ use IEEE.NUMERIC_STD.ALL;
 use ieee.std_logic_unsigned.all;
 
 
-entity StateMemory is
+entity RAM is
     generic(
         maxQubits : integer;
         precision : integer
@@ -19,9 +19,9 @@ entity StateMemory is
         data_in : in std_logic_vector(precision-1 downto 0);
         data_out : out std_logic_vector(precision-1 downto 0)
         );
-end StateMemory;
+end RAM;
 
-architecture Behavioral of StateMemory is
+architecture Behavioral of RAM is
     type memory_array is array (0 to 2**maxQubits-1) of std_logic_vector(precision-1 downto 0);
     signal memory : memory_array := (0 => "0100000000000000000000000000000000000000000000000000000000000000",
 

@@ -3,7 +3,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 
-entity ALU is
+entity ProcessingUnit is
   generic(
   precision: integer
   );
@@ -17,7 +17,7 @@ entity ALU is
    update_a_enable : in std_logic;
    update_b_enable : in std_logic
   );
-end ALU;
+end ProcessingUnit;
 
 architecture Behavioral of ALU is
     signal matrix_0_0 : std_logic_vector(2 downto 0);

@@ -2,7 +2,7 @@ library IEEE;
 use IEEE.Std_logic_1164.all;
 use IEEE.Numeric_Std.all;
 
-entity bootloader is
+entity uartReceiver is
   Generic(
         instruction_width: integer;
         baud_rate : integer;
@@ -17,9 +17,9 @@ entity bootloader is
         program_memory_data_in : out unsigned(instruction_width-1 downto 0);
         program_memory_address : out unsigned(instruction_address_width-1 downto 0);
         reset: out std_logic);
-end bootloader;
+end uartReceiver;
 
-architecture Behavioral of bootloader is 
+architecture Behavioral of uartReceiver is 
     type state is (RECEIVING, PROCESSING);
     signal current_state : State := RECEIVING; 
     
