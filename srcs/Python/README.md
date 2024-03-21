@@ -25,3 +25,9 @@ Once you have your virtual environment set up and activated, you can install the
 ```bash
 pip install -r requirements.txt
 ```
+
+In order to be able to access the serial Ports on Linux based systems you might need to run the following command:
+
+```bash
+sudo usermod -aG dialout your_username
+```
