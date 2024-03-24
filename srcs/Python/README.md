@@ -14,7 +14,7 @@ This project is designed for simulating quantum circuits and communicating with 
 ## Installation
 
 Before starting the installation, it is recommended to create a new virtual environment for this project. You can use Conda or any other virtual environment manager of your choice.
-For example by using the following command:
+For example use the following command to create a new conda environment with python 3.12 installed (Conda needs to be installed for this command to work):
 
 ```bash
 conda create --name myenv python=3.12
