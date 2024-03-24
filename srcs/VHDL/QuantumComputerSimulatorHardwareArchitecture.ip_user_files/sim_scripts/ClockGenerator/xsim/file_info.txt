@@ -1,3 +1,0 @@
-ClockGenerator_clk_wiz.v,verilog,xil_defaultlib,../../../../QuantumComputerSimulatorHardwareArchitecture.gen/sources_1/ip/ClockGenerator/ClockGenerator_clk_wiz.v,incdir="../../../ipstatic"incdir="../../../ipstatic"
-ClockGenerator.v,verilog,xil_defaultlib,../../../../QuantumComputerSimulatorHardwareArchitecture.gen/sources_1/ip/ClockGenerator/ClockGenerator.v,incdir="../../../ipstatic"incdir="../../../ipstatic"
-glbl.v,Verilog,xil_defaultlib,glbl.v

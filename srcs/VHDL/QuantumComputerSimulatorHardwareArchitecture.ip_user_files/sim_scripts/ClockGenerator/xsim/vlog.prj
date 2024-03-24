@@ -1,8 +1,0 @@
-verilog xil_defaultlib --include "../../../ipstatic" \
-"../../../../QuantumComputerSimulatorHardwareArchitecture.gen/sources_1/ip/ClockGenerator/ClockGenerator_clk_wiz.v" \
-"../../../../QuantumComputerSimulatorHardwareArchitecture.gen/sources_1/ip/ClockGenerator/ClockGenerator.v" \
-
-verilog xil_defaultlib "glbl.v"
-
-# Do not sort compile order
-nosort
