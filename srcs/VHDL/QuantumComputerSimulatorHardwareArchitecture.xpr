@@ -4,7 +4,7 @@
 <!-- Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.                   -->
 <!-- Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.   -->
 
-<Project Product="Vivado" Version="7" Minor="65" Path="C:/Users/Jonas/OneDrive/JugendForscht/FPGAQuantumComputerSimulatorAccelerator/HardwareArchitectureQuantumComputerSimulator/QuantumComputerSimulatorHardwareArchitecture.xpr">
+<Project Product="Vivado" Version="7" Minor="65" Path="C:/Users/Jonas/Desktop/Simulation-of-Quantum-Computers-using-FPGAs/srcs/VHDL/QuantumComputerSimulatorHardwareArchitecture.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="9fc8cb5548d844a99c21ca6e15a700a5"/>
@@ -92,6 +92,12 @@
   <FileSets Version="1" Minor="32">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
       <Filter Type="Srcs"/>
+      <File Path="$PSRCDIR/sources_1/new/StatevectorMemory.vhd">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/Timer.vhd">
         <FileInfo>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -119,13 +125,6 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/ProgrammingInterface.vhd">
-        <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/new/StatevectorMemory.vhd">
         <FileInfo>
           <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>

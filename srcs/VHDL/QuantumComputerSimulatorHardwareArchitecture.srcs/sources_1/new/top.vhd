@@ -4,10 +4,10 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity top is
  generic(
-    nCores: integer:=2; 
-    precision: integer:=64; 
-    maxQubits: integer:=14; 
-    baudRate : integer:=460800
+    NUM_CORES: natural:=2; --used to specify the number of Cores being used to do the processing. must be a power of 2
+    PRECISION: natural:=64; --refers to the precision of the complex numbers being used. Cannot be greater than 128 and must be an even number as the bits are evenly shared between the real and imaginary part
+    MAX_QUBITS: natural:=14; --determines the size of the statevector memory
+    BAUD_RATE : natural:=460800 --baud rate used for serial communication
 );
   port(
     system_clk: in std_logic; --clock
@@ -39,9 +39,9 @@ architecture Behavioral of top is
      
      component StatevectorMemory is
        Generic(
-              precision : integer; -- Precision of the data
-              maxQubits : integer; -- Maximum number of qubits
-              nCores : integer -- Number of cores
+              precision : natural; -- Precision of the data
+              MAX_QUBITS : natural; -- Maximum number of qubits
+              NUM_CORES : natural -- Number of cores
               );
               
         Port (
@@ -51,11 +51,11 @@ architecture Behavioral of top is
               read_en : in std_logic; -- Read enable signal
     
               -- address_read and address_write point to the first element of the memory that needs to be read/updated
-              address_read : in std_logic_vector(maxQubits-1 downto 0); -- Read address of the memory
-              address_write : in std_logic_vector(maxQubits-1 downto 0); -- Write address of the memory
+              address_read : in std_logic_vector(MAX_QUBITS-1 downto 0); -- Read address of the memory
+              address_write : in std_logic_vector(MAX_QUBITS-1 downto 0); -- Write address of the memory
     
-              data_in : in std_logic_vector(precision*nCores-1 downto 0); -- Input data
-              data_out : out std_logic_vector(precision*nCores-1 downto 0) -- Output data
+              data_in : in std_logic_vector(precision*NUM_CORES-1 downto 0); -- Input data
+              data_out : out std_logic_vector(precision*NUM_CORES-1 downto 0) -- Output data
               );
     end component;
         
@@ -88,10 +88,10 @@ architecture Behavioral of top is
     --Statevector Memory
     signal w_StatevectorMemory_write_en : std_logic;
     signal w_StatevectorMemory_read_en : std_logic;
-    signal w_StatevectorMemory_address_read : std_logic_vector(2**maxQubits-1 downto 0);
-    signal w_StatevectorMemory_address_write : std_logic_vector(2**maxQubits-1 downto 0);
-    signal w_StatevectorMemory_data_in : std_logic_vector(precision*nCores-1 downto 0);
-    signal w_StatevectorMemory_data_out : std_logic_vector(precision*nCores-1 downto 0);
+    signal w_StatevectorMemory_address_read : std_logic_vector(2**MAX_QUBITS-1 downto 0);
+    signal w_StatevectorMemory_address_write : std_logic_vector(2**MAX_QUBITS-1 downto 0);
+    signal w_StatevectorMemory_data_in : std_logic_vector(precision*NUM_CORES-1 downto 0);
+    signal w_StatevectorMemory_data_out : std_logic_vector(precision*NUM_CORES-1 downto 0);
     
     
     
@@ -109,8 +109,8 @@ begin
     StatevectorMemory_inst : StatevectorMemory
         generic map(
                     precision => precision,
-                    maxQubits => maxQubits,
-                    nCores => nCores
+                    MAX_QUBITS => MAX_QUBITS,
+                    NUM_CORES => NUM_CORES
                     )
         port map(
                 clk => w_clk_200,

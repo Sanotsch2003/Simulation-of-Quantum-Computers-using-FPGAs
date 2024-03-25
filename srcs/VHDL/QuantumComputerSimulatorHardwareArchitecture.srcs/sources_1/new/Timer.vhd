@@ -39,9 +39,7 @@ begin
     end if;
 end process;
     
-
-
- MUX: process(counter, MUX_Signal)
+MUX: process(counter, MUX_Signal)
  begin
     case MUX_Signal is 
         when "00" => digit <= counter(3 downto 0);
@@ -51,8 +49,7 @@ end process;
     end case;
  end process;
  
- 
- encoder: process(digit)
+encoder: process(digit)
  begin
     case digit is
     when X"0" => seg <= "1000000";
@@ -77,7 +74,7 @@ end process;
     end case;
  end process;
  
- ancode: process(MUX_Signal)
+ancode: process(MUX_Signal)
  begin
     case MUX_Signal is 
         when "00" => an <= "1110";
@@ -88,7 +85,7 @@ end process;
     
  end process;
  
- clock_divider: process(clk)
+clock_divider: process(clk)
  begin
     if rising_edge(clk) then
         clkdiv <= clkdiv + 1;
